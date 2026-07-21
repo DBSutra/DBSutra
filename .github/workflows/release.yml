@@ -15,9 +15,6 @@ env:
   WAILS_VERSION: "v3.0.0-alpha2.117"
 
 jobs:
-  # ─────────────────────────────────────────────────────────────
-  # Build Matrix — all platform variants
-  # ─────────────────────────────────────────────────────────────
   build-macos:
     strategy:
       matrix:
@@ -35,11 +32,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@${{ env.WAILS_VERSION }}
-      - name: Build Frontend
+      - name: Install Frontend Dependencies
         working-directory: frontend
-        run: npm ci --legacy-peer-deps && npm run build
+        run: npm ci --legacy-peer-deps
       - name: Generate Bindings
         run: wails3 generate bindings
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm run build
       - name: Generate Icons
         run: wails3 generate icons -input build/appicon.png -macfilename build/darwin/icons.icns -windowsfilename build/windows/icon.ico || cp build/appicon.png build/darwin/icons.icns
       - name: Set version
@@ -64,11 +64,6 @@ jobs:
           cp bin/DBSutra bin/DBSutra.app/Contents/MacOS/
           cp build/darwin/icons.icns bin/DBSutra.app/Contents/Resources/AppIcon.icns
           cp build/darwin/Info.plist bin/DBSutra.app/Contents/
-          # Hardened runtime for notarization
-          codesign --force --deep --sign - \
-            --options runtime \
-            --entitlements build/darwin/entitlements.plist \
-            bin/DBSutra.app || \
           codesign --force --deep --sign - bin/DBSutra.app || true
       - name: Create DMG
         run: |
@@ -102,11 +97,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@${{ env.WAILS_VERSION }}
-      - name: Build Frontend
+      - name: Install Frontend Dependencies
         working-directory: frontend
-        run: npm ci --legacy-peer-deps && npm run build
+        run: npm ci --legacy-peer-deps
       - name: Generate Bindings
         run: wails3 generate bindings
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm run build
       - name: Set version
         id: version
         shell: bash
@@ -149,11 +147,14 @@ jobs:
           fi
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@${{ env.WAILS_VERSION }}
-      - name: Build Frontend
+      - name: Install Frontend Dependencies
         working-directory: frontend
-        run: npm ci --legacy-peer-deps && npm run build
+        run: npm ci --legacy-peer-deps
       - name: Generate Bindings
         run: wails3 generate bindings
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm run build
       - name: Set version
         id: version
         run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
@@ -170,7 +171,6 @@ jobs:
           mkdir -p deb-root/DEBIAN deb-root/usr/bin deb-root/usr/share/applications deb-root/usr/share/icons/hicolor/256x256/apps
           cp bin/DBSutra deb-root/usr/bin/
           cp build/appicon.png deb-root/usr/share/icons/hicolor/256x256/apps/dbsutra.png
-          cp build/linux/dbsutra.desktop deb-root/usr/share/applications/ 2>/dev/null || true
           cat > deb-root/usr/share/applications/dbsutra.desktop << 'EOF'
           [Desktop Entry]
           Name=DBSutra
@@ -186,7 +186,7 @@ jobs:
           Section: devel
           Priority: optional
           Architecture: ${{ matrix.arch == 'arm64' && 'arm64' || 'amd64' }}
-          Maintainer: Amit Anand <dropmail.amit@gmail.com>
+          Maintainer: DBSutra <dropmail.amit@gmail.com>
           Description: A modern, cross-platform database client
            DBSutra supports PostgreSQL, MySQL, SQLite, MongoDB, Redis, and Elasticsearch.
           EOF
@@ -226,9 +226,6 @@ jobs:
             bin/DBSutra-Linux-*.AppImage
             bin/DBSutra
 
-  # ─────────────────────────────────────────────────────────────
-  # Release
-  # ─────────────────────────────────────────────────────────────
   release:
     needs: [build-macos, build-windows, build-linux]
     runs-on: ubuntu-latest

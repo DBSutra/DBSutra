@@ -43,8 +43,7 @@ describe('Input', () => {
     expect(onChange).toHaveBeenCalledTimes(5)
   })
 
-  it('is disabled when disabled prop is set', async () => {
-    const user = userEvent.setup()
+  it('is disabled when disabled prop is set', () => {
     const onChange = vi.fn()
 
     render(<Input disabled onChange={onChange} />)

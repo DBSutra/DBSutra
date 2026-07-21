@@ -57,11 +57,11 @@ describe('useEventBus', () => {
     const handler = vi.fn()
 
     const { rerender } = renderHook(
-      ({ event }) => useEventBus(event, handler),
-      { initialProps: { event: Events.DB_CONNECTED } }
+      ({ event }: { event: string }) => useEventBus(event, handler),
+      { initialProps: { event: Events.DB_CONNECTED as string } }
     )
 
-    rerender({ event: Events.QUERY_COMPLETED })
+    rerender({ event: Events.QUERY_COMPLETED as string })
 
     EventBus.emit(Events.DB_CONNECTED, { connId: 'c1', type: 'mysql', name: 'db' })
     expect(handler).not.toHaveBeenCalled()

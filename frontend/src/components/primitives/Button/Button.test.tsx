@@ -49,8 +49,7 @@ describe('Button', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
-  it('is disabled when loading', async () => {
-    const user = userEvent.setup()
+  it('is disabled when loading', () => {
     const onClick = vi.fn()
 
     render(<Button loading onClick={onClick}>Loading</Button>)

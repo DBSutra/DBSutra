@@ -147,3 +147,10 @@ export function safeJsonParse<T>(json: string, context: ErrorContext): T | null 
 export function getErrorLog(): readonly ErrorEntry[] {
   return errorLog
 }
+
+/**
+ * Clears all collected errors from the log.
+ */
+export function clearErrorLog(): void {
+  errorLog.splice(0, errorLog.length)
+}

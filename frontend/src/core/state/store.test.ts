@@ -3,9 +3,9 @@
  * Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
  * See LICENSE file in the project root for full license information.
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { useAppStore } from './store'
-import type { ConnectionConfig, EditorTab, Theme } from '@core/types'
+import type { ConnectionConfig, EditorTab, Theme, LayoutNode } from '@core/types'
 import type { ExtensionManifest } from '@core/types'
 
 // The store's subscribe calls SetState (Wails binding) on tab changes.
@@ -134,7 +134,7 @@ describe('AppStore', () => {
 
       it('switches active to previous tab when closing the active tab', () => {
         const state = useAppStore.getState()
-        const id1 = state.openTab(makeTab({ title: 'Tab 1' }))
+        state.openTab(makeTab({ title: 'Tab 1' }))
         const id2 = useAppStore.getState().openTab(makeTab({ title: 'Tab 2' }))
         const id3 = useAppStore.getState().openTab(makeTab({ title: 'Tab 3' }))
         // active is id3
@@ -147,7 +147,7 @@ describe('AppStore', () => {
       it('changes the active tab id', () => {
         const state = useAppStore.getState()
         const id1 = state.openTab(makeTab())
-        const id2 = useAppStore.getState().openTab(makeTab())
+        useAppStore.getState().openTab(makeTab())
 
         useAppStore.getState().setActiveTab(id1)
 
@@ -506,7 +506,7 @@ describe('AppStore', () => {
     it('initializes with DEFAULT_LAYOUT', () => {
       const { layout } = useAppStore.getState()
       expect(layout.type).toBe('row')
-      expect(layout.children).toHaveLength(2)
+      expect((layout as Extract<LayoutNode, { type: 'row' }>).children).toHaveLength(2)
     })
 
     it('setLayout replaces the layout', () => {

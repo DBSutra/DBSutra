@@ -11,6 +11,7 @@ import {
   fireAndForget,
   safeJsonParse,
   getErrorLog,
+  clearErrorLog,
   type ErrorContext,
 } from './errors'
 
@@ -22,7 +23,7 @@ const CTX: ErrorContext = {
 describe('errors utilities', () => {
   beforeEach(() => {
     // Clear the global error log between tests
-    getErrorLog().length = 0
+    clearErrorLog()
   })
 
   describe('createError()', () => {
