@@ -10,7 +10,7 @@ require (
 	github.com/wailsapp/wails/v3 v3.0.0-alpha2.117
 	go.mongodb.org/mongo-driver v1.17.9
 	golang.org/x/crypto v0.54.0
-	modernc.org/sqlite v1.53.0
+	modernc.org/sqlite v1.54.0
 )
 
 require (
