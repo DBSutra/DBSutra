@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
@@ -19,33 +23,96 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "paths": {
-      "@app/*": ["./src/app/*"],
-      "@core": ["./src/core/index.ts"],
-      "@core/*": ["./src/core/*"],
-      "@components": ["./src/components/index.ts"],
-      "@components/*": ["./src/components/*"],
-      "@primitives": ["./src/components/primitives/index.ts"],
-      "@primitives/*": ["./src/components/primitives/*"],
-      "@base": ["./src/components/base/index.ts"],
-      "@base/*": ["./src/components/base/*"],
-      "@chrome": ["./src/components/chrome/index.ts"],
-      "@chrome/*": ["./src/components/chrome/*"],
-      "@features": ["./src/features/index.ts"],
-      "@features/*": ["./src/features/*"],
-      "@editor": ["./src/features/editor/index.ts"],
-      "@editor/*": ["./src/features/editor/*"],
-      "@panels": ["./src/features/panels/index.ts"],
-      "@panels/*": ["./src/features/panels/*"],
-      "@extensions": ["./src/features/extensions/index.ts"],
-      "@extensions/*": ["./src/features/extensions/*"],
-      "@config": ["./src/config/index.ts"],
-      "@config/*": ["./src/config/*"],
-      "@shared": ["./src/shared/index.ts"],
-      "@shared/*": ["./src/shared/*"],
-      "@bindings/*": ["./bindings/*"],
-      "@wails/*": ["./wailsjs/*"]
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@core": [
+        "./src/core/index.ts"
+      ],
+      "@core/*": [
+        "./src/core/*"
+      ],
+      "@components": [
+        "./src/components/index.ts"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@primitives": [
+        "./src/components/primitives/index.ts"
+      ],
+      "@primitives/*": [
+        "./src/components/primitives/*"
+      ],
+      "@base": [
+        "./src/components/base/index.ts"
+      ],
+      "@base/*": [
+        "./src/components/base/*"
+      ],
+      "@chrome": [
+        "./src/components/chrome/index.ts"
+      ],
+      "@chrome/*": [
+        "./src/components/chrome/*"
+      ],
+      "@features": [
+        "./src/features/index.ts"
+      ],
+      "@features/*": [
+        "./src/features/*"
+      ],
+      "@editor": [
+        "./src/features/editor/index.ts"
+      ],
+      "@editor/*": [
+        "./src/features/editor/*"
+      ],
+      "@panels": [
+        "./src/features/panels/index.ts"
+      ],
+      "@panels/*": [
+        "./src/features/panels/*"
+      ],
+      "@extensions": [
+        "./src/features/extensions/index.ts"
+      ],
+      "@extensions/*": [
+        "./src/features/extensions/*"
+      ],
+      "@config": [
+        "./src/config/index.ts"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@shared": [
+        "./src/shared/index.ts"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@bindings/*": [
+        "./bindings/*"
+      ],
+      "@wails/*": [
+        "./wailsjs/*"
+      ]
     }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/test/**"
+  ]
 }
