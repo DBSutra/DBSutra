@@ -78,7 +78,7 @@ jobs:
           hdiutil create -volname "DBSutra" -srcfolder dmg-staging -ov -format UDZO "bin/DBSutra-macOS-${{ matrix.arch }}.dmg"
           rm -rf dmg-staging
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: macos-${{ matrix.arch }}
           path: |
@@ -118,7 +118,7 @@ jobs:
           cd bin
           7z a "DBSutra-Windows-${{ matrix.arch }}.zip" DBSutra.exe
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows-${{ matrix.arch }}
           path: |
@@ -218,7 +218,7 @@ jobs:
           /tmp/appimagetool AppDir "bin/DBSutra-Linux-x86_64.AppImage" || echo "AppImage build skipped (FUSE required)"
           rm -rf AppDir
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: linux-${{ matrix.arch }}
           path: |
