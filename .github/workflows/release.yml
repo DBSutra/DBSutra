@@ -18,8 +18,12 @@ jobs:
   build-macos:
     strategy:
       matrix:
-        arch: [arm64, amd64]
-    runs-on: macos-latest
+        include:
+          - arch: arm64
+            runner: macos-latest
+          - arch: amd64
+            runner: macos-13
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -83,7 +87,7 @@ jobs:
   build-windows:
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        arch: [amd64]
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -126,7 +130,7 @@ jobs:
   build-linux:
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        arch: [amd64]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
