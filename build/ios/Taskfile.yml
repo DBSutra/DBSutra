@@ -1,0 +1,36 @@
+version: '3'
+
+includes:
+  common: ../Taskfile.yml
+
+vars:
+  APP_NAME: "DBSutra"
+  BIN_DIR: "bin"
+
+tasks:
+  build:
+    summary: Builds the iOS framework
+    platforms: [darwin]
+    deps:
+      - common:build:frontend
+    cmds:
+      - GOOS=ios GOARCH=arm64 CGO_ENABLED=1 go build -buildmode=c-shared -tags production -ldflags="-w -s" -o "{{.BIN_DIR}}/{{.APP_NAME}}-ios"
+    env:
+      CGO_CFLAGS: "-mios-version-min=15.0"
+      CGO_LDFLAGS: "-mios-version-min=15.0"
+
+  package:
+    summary: Packages iOS app (requires Xcode)
+    platforms: [darwin]
+    deps:
+      - build
+    cmds:
+      - echo "iOS packaging requires Xcode project setup"
+      - echo "Use 'wails3 task ios:xcode' to open in Xcode"
+
+  xcode:
+    summary: Opens Xcode project for iOS builds
+    platforms: [darwin]
+    cmds:
+      - wails3 ios xcode:gen
+      - open "{{.BIN_DIR}}/DBSutra.xcodeproj" 2>/dev/null || echo "Xcode project not generated yet"

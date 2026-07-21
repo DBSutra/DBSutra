@@ -1,0 +1,91 @@
+version: '3'
+
+includes:
+  common: ../Taskfile.yml
+
+vars:
+  APP_NAME: "DBSutra"
+  BIN_DIR: "bin"
+
+tasks:
+  build:
+    summary: Builds and packages the application for macOS
+    cmds:
+      - task: build:native
+        vars:
+          ARCH: '{{.ARCH}}'
+          DEV: '{{.DEV}}'
+      - task: create:app:bundle
+      - task: create:dmg
+    vars:
+      ARCH: '{{.ARCH | default "arm64"}}'
+      DEV: '{{.DEV | default "false"}}'
+
+  build:native:
+    summary: Builds the binary
+    internal: true
+    deps:
+      - common:go:mod:tidy
+      - common:build:frontend
+    cmds:
+      - go build {{.BUILD_FLAGS}} -o "{{.BIN_DIR}}/{{.APP_NAME}}"
+    vars:
+      BUILD_FLAGS: '{{if eq .DEV "true"}}-buildvcs=false -gcflags=all="-l"{{else}}-tags production -trimpath -buildvcs=false -ldflags="-w -s"{{end}}'
+    env:
+      GOOS: darwin
+      CGO_ENABLED: 1
+      GOARCH: '{{.ARCH | default "arm64"}}'
+      CGO_CFLAGS: "-mmacosx-version-min=12.0"
+      CGO_LDFLAGS: "-mmacosx-version-min=12.0"
+      MACOSX_DEPLOYMENT_TARGET: "12.0"
+
+  build:universal:
+    summary: Builds universal binary (arm64 + amd64)
+    cmds:
+      - task: build:native
+        vars:
+          ARCH: amd64
+      - task: build:native
+        vars:
+          ARCH: arm64
+      - lipo -create -output "{{.BIN_DIR}}/{{.APP_NAME}}" "{{.BIN_DIR}}/{{.APP_NAME}}-amd64" "{{.BIN_DIR}}/{{.APP_NAME}}-arm64"
+      - rm "{{.BIN_DIR}}/{{.APP_NAME}}-amd64" "{{.BIN_DIR}}/{{.APP_NAME}}-arm64"
+      - task: create:app:bundle
+      - task: create:dmg
+
+  create:app:bundle:
+    summary: Creates an .app bundle with proper signing
+    internal: true
+    cmds:
+      - rm -rf "{{.BIN_DIR}}/{{.APP_NAME}}.app"
+      - mkdir -p "{{.BIN_DIR}}/{{.APP_NAME}}.app/Contents/MacOS"
+      - mkdir -p "{{.BIN_DIR}}/{{.APP_NAME}}.app/Contents/Resources"
+      - cp "{{.BIN_DIR}}/{{.APP_NAME}}" "{{.BIN_DIR}}/{{.APP_NAME}}.app/Contents/MacOS/"
+      - cp build/darwin/icons.icns "{{.BIN_DIR}}/{{.APP_NAME}}.app/Contents/Resources/AppIcon.icns"
+      - cp build/darwin/Info.plist "{{.BIN_DIR}}/{{.APP_NAME}}.app/Contents/"
+      # Ad-hoc signing with hardened runtime
+      - codesign --force --deep --options runtime --sign - "{{.BIN_DIR}}/{{.APP_NAME}}.app"
+      # Remove quarantine attribute
+      - xattr -cr "{{.BIN_DIR}}/{{.APP_NAME}}.app"
+
+  create:dmg:
+    summary: Creates a .dmg installer
+    internal: true
+    cmds:
+      - rm -f "{{.BIN_DIR}}/{{.APP_NAME}}.dmg"
+      - rm -rf /tmp/dmg-staging
+      - mkdir -p /tmp/dmg-staging
+      - cp -R "{{.BIN_DIR}}/{{.APP_NAME}}.app" /tmp/dmg-staging/
+      - ln -sf /Applications /tmp/dmg-staging/Applications
+      - hdiutil create -volname "{{.APP_NAME}}" -srcfolder /tmp/dmg-staging -ov -format UDZO "{{.BIN_DIR}}/{{.APP_NAME}}.dmg"
+      - rm -rf /tmp/dmg-staging
+
+  package:
+    summary: Alias for build (creates .app + .dmg)
+    cmds:
+      - task: build
+
+  run:
+    summary: Runs the application
+    cmds:
+      - open "{{.BIN_DIR}}/{{.APP_NAME}}.app"

@@ -1,0 +1,28 @@
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--color-bg-primary); color: var(--color-text-primary);
+  font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.5;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: var(--scrollbar-width, 6px); height: var(--scrollbar-width, 6px); }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-scrollbar-thumb); border-radius: var(--radius-xs, 2px); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-scrollbar-hover); }
+
+/* Selection & Focus */
+::selection { background: var(--color-accent-light); color: var(--color-text-primary); }
+:focus-visible { outline: var(--border-width-bold, 2px) solid var(--color-accent-blue); outline-offset: -2px; border-radius: var(--radius-sm); }
+
+button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+a { color: var(--color-accent-blue); text-decoration: none; }
+
+@keyframes spin { to { transform: rotate(360deg); } }

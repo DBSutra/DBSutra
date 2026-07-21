@@ -1,0 +1,56 @@
+version: '3'
+
+includes:
+  common: ../Taskfile.yml
+
+vars:
+  APP_NAME: "DBSutra"
+  BIN_DIR: "bin"
+
+tasks:
+  build:
+    summary: Builds and packages the application for Windows
+    cmds:
+      - task: build:native
+        vars:
+          ARCH: '{{.ARCH}}'
+          DEV: '{{.DEV}}'
+      - task: create:portable:zip
+    vars:
+      ARCH: '{{.ARCH | default "amd64"}}'
+      DEV: '{{.DEV | default "false"}}'
+
+  build:native:
+    summary: Builds the application for Windows
+    internal: true
+    deps:
+      - task: common:go:mod:tidy
+      - task: common:build:frontend
+    cmds:
+      - go build {{.BUILD_FLAGS}} -o "{{.BIN_DIR}}/{{.APP_NAME}}.exe"
+    vars:
+      BUILD_FLAGS: '{{if eq .DEV "true"}}-buildvcs=false -gcflags=all="-l"{{else}}-tags production -trimpath -buildvcs=false -ldflags="-w -s -H windowsgui"{{end}}'
+    env:
+      GOOS: windows
+      CGO_ENABLED: 0
+      GOARCH: '{{.ARCH | default "amd64"}}'
+
+  package:
+    summary: Creates Windows packages (installer + portable)
+    deps:
+      - task: build
+    cmds:
+      - task: create:portable:zip
+
+  create:portable:zip:
+    summary: Creates a portable .zip package
+    internal: true
+    cmds:
+      - cd {{.BIN_DIR}} && zip -r {{.APP_NAME}}-windows-{{.ARCH | default "amd64"}}.zip {{.APP_NAME}}.exe
+    vars:
+      ARCH: '{{.ARCH | default "amd64"}}'
+
+  run:
+    summary: Runs the application
+    cmds:
+      - ./{{.BIN_DIR}}/{{.APP_NAME}}.exe

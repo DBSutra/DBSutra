@@ -1,0 +1,223 @@
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT STYLES
+   Production-grade component styles using design tokens.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Button Component ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--button-padding-md);
+  height: var(--button-height-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.btn-secondary {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-bg-active);
+  border-color: var(--color-border);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: white;
+  border-color: var(--color-error);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--color-error-hover);
+  border-color: var(--color-error-hover);
+}
+
+/* Button Sizes */
+.btn-sm {
+  height: var(--button-height-sm);
+  padding: var(--button-padding-sm);
+  font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+  height: var(--button-height-lg);
+  padding: var(--button-padding-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* ─── Input Component ─────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  height: var(--input-height-md);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-light);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input-sm {
+  height: var(--input-height-sm);
+  font-size: var(--font-size-sm);
+}
+
+.input-lg {
+  height: var(--input-height-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* ─── Select Component ────────────────────────────────────────────── */
+.select {
+  width: 100%;
+  height: var(--input-height-md);
+  padding: var(--space-2) var(--space-8) var(--space-2) var(--space-3);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* ─── Card Component ──────────────────────────────────────────────── */
+.card {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: var(--font-weight-semibold);
+}
+
+.card-body {
+  padding: var(--space-4) var(--space-6);
+}
+
+.card-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* ─── Badge Component ─────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  line-height: 1;
+}
+
+.badge-success {
+  background: var(--color-success-50);
+  color: var(--color-success-700);
+}
+
+.badge-warning {
+  background: var(--color-warning-50);
+  color: var(--color-warning-700);
+}
+
+.badge-error {
+  background: var(--color-error-50);
+  color: var(--color-error-700);
+}
+
+.badge-info {
+  background: var(--color-info-50);
+  color: var(--color-info-700);
+}
+
+/* ─── Tooltip Component ───────────────────────────────────────────── */
+.tooltip {
+  position: relative;
+}
+
+.tooltip-content {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-50);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: var(--z-index-tooltip);
+}
+
+.tooltip:hover .tooltip-content {
+  opacity: 1;
+}

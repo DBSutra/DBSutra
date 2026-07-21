@@ -1,0 +1,29 @@
+{
+  "id": "sqlite",
+  "name": "SQLite",
+  "version": "1.0.0",
+  "description": "SQLite database support — connection, schema browser, query editor, results viewer",
+  "activationEvents": ["onStartup"],
+  "contributes": {
+    "databases": [
+      {
+        "type": "sqlite",
+        "label": "SQLite",
+        "icon": "sqlite",
+        "defaultPort": 0,
+        "queryLanguage": "sql",
+        "supportsSSH": false,
+        "supportsSSL": false
+      }
+    ],
+    "commands": [
+      { "id": "newQuery", "title": "New SQLite Query", "category": "SQLite" },
+      { "id": "refreshSchema", "title": "Refresh Schema", "category": "SQLite" }
+    ],
+    "views": [
+      { "id": "schema-explorer", "title": "Schema Explorer", "icon": "database", "location": "sidebar", "group": "database", "order": 3 },
+      { "id": "query-editor", "title": "Query Editor", "icon": "code", "location": "editor" },
+      { "id": "results-viewer", "title": "Results", "icon": "table", "location": "panel", "order": 3 }
+    ]
+  }
+}

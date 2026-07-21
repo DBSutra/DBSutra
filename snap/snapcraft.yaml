@@ -1,0 +1,51 @@
+name: dbsutra
+base: core24
+version: "1.0.0"
+summary: A modern, cross-platform database client
+description: |
+  DBSutra is a powerful desktop database client supporting PostgreSQL, MySQL,
+  SQLite, MongoDB, Redis, and Elasticsearch. Features include SSH tunneling,
+  query editor with syntax highlighting, schema exploration, and more.
+
+grade: stable
+confinement: strict
+architectures:
+  - build-on: [amd64]
+    build-for: [amd64]
+  - build-on: [arm64]
+    build-for: [arm64]
+
+apps:
+  dbsutra:
+    command: usr/bin/DBSutra
+    extensions: [gnome]
+    plugs:
+      - network
+      - network-bind
+      - home
+      - ssh-keys
+      - removable-media
+    environment:
+      DISABLE_WAYLAND: 1
+
+parts:
+  dbsutra:
+    plugin: go
+    source: .
+    build-snaps:
+      - go/1.26/stable
+    build-packages:
+      - build-essential
+      - libgtk-4-dev
+      - libwebkitgtk-6.0-dev
+      - pkg-config
+      - nodejs
+      - npm
+    override-build: |
+      cd frontend
+      npm ci --legacy-peer-deps
+      npm run build
+      cd ..
+      go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-alpha2.117
+      wails3 generate bindings
+      go build -tags production -ldflags="-w -s" -o $SNAPCRAFT_PART_INSTALL/usr/bin/DBSutra

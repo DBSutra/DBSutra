@@ -1,0 +1,80 @@
+# Build outputs
+build/bin/
+bin/
+*.exe
+*.app
+*.dylib
+*.so
+*.dmg
+*.deb
+*.rpm
+*.AppImage
+*.zip
+*.tar.gz
+*.nsis
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/bindings/
+frontend/wailsjs/
+frontend/coverage/
+
+# Go
+*.test
+*.out
+*.prof
+*.test.coverage
+
+# IDE
+.idea/
+.vscode/
+.kiro/
+.cursor/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+/specs
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Wails
+.task/
+
+# Security
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+coverage-html/
+lcov.info
+
+# Logs
+*.log
+logs/
+
+# Temp
+tmp/
+temp/
+.tmp/
+
+# Reference repos (not part of the app)
+.reference-repos/
+
+# Build artifacts
+dist-ssr/

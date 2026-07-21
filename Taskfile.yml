@@ -1,0 +1,57 @@
+version: '3'
+
+vars:
+  APP_NAME: "DBSutra"
+  BIN_DIR: "bin"
+  PACKAGE_MANAGER: '{{.PACKAGE_MANAGER | default "npm"}}'
+  VITE_PORT: '{{.WAILS_VITE_PORT | default 9245}}'
+
+includes:
+  common: ./build/Taskfile.yml
+  windows: ./build/windows/Taskfile.yml
+  darwin: ./build/darwin/Taskfile.yml
+  linux: ./build/linux/Taskfile.yml
+  ios: ./build/ios/Taskfile.yml
+
+tasks:
+  build:
+    summary: Builds the application for the current platform
+    cmds:
+      - task: "{{OS}}:build"
+
+  package:
+    summary: Packages a production build for the current platform
+    cmds:
+      - task: "{{OS}}:package"
+
+  run:
+    summary: Runs the application
+    cmds:
+      - task: "{{OS}}:run"
+
+  dev:
+    summary: Runs in development mode with hot reload
+    cmds:
+      - wails3 dev -config ./build/config.yml -port {{.VITE_PORT}}
+
+  test:
+    summary: Runs the Go unit tests
+    cmds:
+      - go test ./backend/...
+
+  clean:
+    summary: Cleans build artifacts
+    cmds:
+      - rm -rf {{.BIN_DIR}}
+      - rm -rf frontend/dist
+      - rm -rf frontend/bindings
+
+  generate:bindings:
+    summary: Generates Go-to-frontend bindings
+    cmds:
+      - wails3 generate bindings
+
+  generate:icons:
+    summary: Generates platform icons
+    cmds:
+      - wails3 generate icons -input build/appicon.png

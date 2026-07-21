@@ -1,0 +1,83 @@
+.base-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-5);
+  height: var(--tab-height, 28px);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: var(--border-width) solid transparent;
+  border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  user-select: none;
+}
+
+.base-tab:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.base-tab-active,
+.base-tab-active:hover {
+  background: var(--color-bg-panel);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  border-color: var(--color-border);
+}
+
+.base-tab-icon {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.base-tab-active .base-tab-icon {
+  opacity: 0.9;
+}
+
+.base-tab-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.base-tab-dot {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-orange);
+  flex-shrink: 0;
+}
+
+.base-tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-8);
+  height: var(--space-8);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.base-tab:hover .base-tab-close {
+  opacity: 1;
+}
+
+.base-tab-close:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}

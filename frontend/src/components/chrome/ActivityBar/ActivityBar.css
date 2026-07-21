@@ -1,0 +1,95 @@
+/* ─── Activity Bar — Compact VS Code style ─────────────────────────────── */
+.activity-bar {
+  display: flex;
+  background: var(--color-activitybar-bg);
+  flex-shrink: 0;
+  user-select: none;
+  z-index: 10;
+}
+
+.ab-vertical {
+  flex-direction: column;
+  justify-content: space-between;
+  width: var(--activitybar-width, 40px);
+  padding: var(--space-2) 0;
+}
+
+.ab-horizontal {
+  flex-direction: row;
+  justify-content: flex-start;
+  height: var(--activitybar-width, 40px);
+  padding: 0 var(--space-2);
+}
+
+.ab-left {
+  border-right: var(--border-width) solid var(--color-border-subtle);
+}
+
+.ab-right {
+  border-left: var(--border-width) solid var(--color-border-subtle);
+}
+
+.ab-top {
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+}
+
+.ab-bottom {
+  border-top: var(--border-width) solid var(--color-border-subtle);
+}
+
+.ab-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.ab-vertical .ab-group {
+  flex-direction: column;
+}
+
+.ab-horizontal .ab-group {
+  flex-direction: row;
+}
+
+.ab-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--activitybar-width, 40px);
+  height: var(--tabbar-height, 36px);
+  background: none;
+  border: none;
+  color: var(--color-activitybar-fg);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.ab-vertical .ab-item {
+  border-left: var(--border-width-bold, 2px) solid transparent;
+}
+
+.ab-horizontal .ab-item {
+  border-bottom: var(--border-width-bold, 2px) solid transparent;
+  height: var(--activitybar-width, 40px);
+  width: var(--tabbar-height, 36px);
+}
+
+.ab-item:hover {
+  color: var(--color-activitybar-active-fg);
+}
+
+.ab-item:active {
+  color: var(--color-text-primary);
+}
+
+/* Active indicator — left border like VS Code */
+.ab-vertical .ab-item.active {
+  color: var(--color-activitybar-active-fg);
+  border-left-color: var(--color-text-primary);
+}
+
+.ab-horizontal .ab-item.active {
+  color: var(--color-activitybar-active-fg);
+  border-bottom-color: var(--color-text-primary);
+}

@@ -1,0 +1,177 @@
+version: '3'
+
+tasks:
+  go:mod:tidy:
+    summary: Runs `go mod tidy`
+    internal: true
+    run: once
+    cmds:
+      - go mod tidy
+
+  install:frontend:deps:
+    summary: Install frontend dependencies
+    run: once
+    cmds:
+      - task: install:frontend:deps:{{.PACKAGE_MANAGER}}
+
+  install:frontend:deps:npm:
+    dir: frontend
+    sources:
+      - package.json
+      - package-lock.json
+    generates:
+      - node_modules
+    preconditions:
+      - sh: npm version
+        msg: "npm is not installed. Install Node.js from https://nodejs.org/"
+    cmds:
+      - npm install
+
+  build:frontend:
+    summary: Build the frontend project
+    run: once
+    dir: frontend
+    sources:
+      - "**/*"
+      - exclude: node_modules/**/*
+    generates:
+      - dist/**/*
+    deps:
+      - task: install:frontend:deps
+      - task: generate:bindings
+    cmds:
+      - npm run build
+
+  dev:frontend:
+    summary: Run frontend dev server with hot reload
+    dir: frontend
+    deps:
+      - task: install:frontend:deps
+      - task: generate:bindings
+    cmds:
+      - npm run dev
+
+  generate:bindings:
+    summary: Generates Go-to-frontend bindings
+    cmds:
+      - wails3 generate bindings
+
+  generate:icons:
+    summary: Generates platform icons
+    cmds:
+      - wails3 generate icons -input build/appicon.png
+
+  generate:dotdesktop:
+    summary: Generates .desktop file for Linux
+    dir: build
+    cmds:
+      - wails3 generate .desktop -name "{{.APP_NAME}}" -exec "{{.APP_NAME}}" -icon "{{.APP_NAME}}" -outputfile "{{.ROOT_DIR}}/build/linux/{{.APP_NAME}}.desktop" -categories "Development;"
+
+  # ── Linting ─────────────────────────────────────────────────────────
+
+  lint:frontend:
+    summary: Run ESLint on the frontend
+    dir: frontend
+    cmds:
+      - npm run lint
+
+  lint:go:
+    summary: Run golangci-lint on Go code
+    cmds:
+      - golangci-lint run ./...
+
+  lint:
+    summary: Run all linters (frontend + Go)
+    cmds:
+      - task: lint:frontend
+      - task: lint:go
+
+  # ── Formatting ──────────────────────────────────────────────────────
+
+  format:frontend:
+    summary: Run Prettier to format frontend code
+    dir: frontend
+    cmds:
+      - npm run format
+
+  format:check:
+    summary: Check frontend code formatting without writing changes
+    dir: frontend
+    cmds:
+      - npm run format:check
+
+  # ── Testing ─────────────────────────────────────────────────────────
+
+  test:
+    summary: Run all tests (frontend + Go)
+    cmds:
+      - task: test:frontend
+      - task: test:go
+
+  test:frontend:
+    summary: Run frontend unit tests with Vitest
+    dir: frontend
+    cmds:
+      - npm run test
+
+  test:frontend:coverage:
+    summary: Run frontend tests with coverage report
+    dir: frontend
+    cmds:
+      - npm run test:coverage
+
+  test:go:
+    summary: Run Go tests
+    cmds:
+      - go test ./backend/... -v -count=1
+
+  test:go:coverage:
+    summary: Run Go tests with coverage report
+    cmds:
+      - go test ./backend/... -v -count=1 -coverprofile=coverage.out
+
+  test:go:integration:
+    summary: Run Go integration tests
+    cmds:
+      - go test -tags integration ./backend/... -v -count=1
+
+  # ── Security ────────────────────────────────────────────────────────
+
+  security:go:
+    summary: Run govulncheck to find known vulnerabilities in Go dependencies
+    cmds:
+      - govulncheck ./...
+
+  security:frontend:
+    summary: Run npm audit on frontend dependencies
+    dir: frontend
+    cmds:
+      - npm audit --audit-level=moderate
+
+  security:
+    summary: Run all security checks (Go + frontend)
+    cmds:
+      - task: security:go
+      - task: security:frontend
+
+  # ── Type Checking ───────────────────────────────────────────────────
+
+  typecheck:
+    summary: Run TypeScript type checking
+    dir: frontend
+    cmds:
+      - npm run typecheck
+
+  # ── Composite ───────────────────────────────────────────────────────
+
+  check:
+    summary: Run all checks (lint, typecheck, tests)
+    cmds:
+      - task: lint
+      - task: typecheck
+      - task: test
+
+  build:all:
+    summary: Build for all platforms (placeholder)
+    cmds:
+      - echo "build:all is a placeholder — implement per-platform build tasks as needed"

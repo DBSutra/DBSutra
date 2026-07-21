@@ -1,0 +1,40 @@
+/* ═══════════════════════════════════════════════════════════════
+   DOCK EXTRAS — Buttons, placeholders, scrollbars, drag
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Extra content buttons */
+.dock-layout .dock-extra-content { display: flex; align-items: center; padding: 0 var(--space-1); gap: 0; }
+.dock-layout .dock-panel-max-btn::before, .dock-layout .dock-panel-min-btn::before { display: none !important; content: none !important; }
+.dock-layout .dock-panel-max-btn, .dock-layout .dock-panel-min-btn { color: transparent !important; width: var(--space-12) !important; height: var(--space-12) !important; border-radius: var(--radius-sm); background: none !important; border: none !important; padding: 0 !important; margin: 0 var(--space-2) 0 0 !important; cursor: pointer; opacity: 0.4; position: relative; display: flex !important; align-items: center; justify-content: center; transition: background var(--transition-fast) ease, opacity var(--transition-fast) ease; }
+.dock-layout .dock-panel-max-btn::after, .dock-layout .dock-panel-min-btn::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: var(--space-7); height: var(--space-7); background-color: var(--color-text-muted); mask-size: contain; mask-repeat: no-repeat; mask-position: center; -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; transition: background-color var(--transition-fast) ease; }
+.dock-layout .dock-panel-max-btn::after { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3C/svg%3E"); -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3C/svg%3E"); }
+.dock-layout .dock-panel-min-btn::after { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3'%3E%3C/path%3E%3C/svg%3E"); -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3'%3E%3C/path%3E%3C/svg%3E"); }
+.dock-layout .dock-panel-max-btn:hover, .dock-layout .dock-panel-min-btn:hover { background: var(--color-bg-active-subtle) !important; opacity: 1; }
+.dock-layout .dock-panel-max-btn:hover::after, .dock-layout .dock-panel-min-btn:hover::after { background-color: var(--color-text-primary); }
+.dock-layout .dock-panel-max-btn:active, .dock-layout .dock-panel-min-btn:active { transform: scale(0.92); }
+
+.panel-extra-buttons { display: flex; align-items: center; gap: 0; }
+.panel-extra-btn { display: flex; align-items: center; justify-content: center; width: var(--space-12); height: var(--space-12); background: none; border: none; border-radius: var(--radius-sm); color: var(--color-text-muted); cursor: pointer; transition: background var(--transition-fast) ease, color var(--transition-fast) ease; opacity: 0.4; }
+.panel-extra-btn:hover { background: var(--color-bg-active-subtle); color: var(--color-text-primary); opacity: 1; }
+.panel-extra-btn:active { transform: scale(0.92); }
+
+/* Tab title */
+.dock-tab-title { display: flex; align-items: center; gap: var(--space-4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--text-sm); letter-spacing: -0.01em; }
+.dock-tab-title .icon { flex-shrink: 0; opacity: 0.5; transition: opacity var(--transition-fast) ease; }
+.dock-tab-active .dock-tab-title .icon { opacity: 0.85; }
+
+/* Placeholders */
+.panel-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: var(--space-4); padding: var(--space-12); text-align: center; user-select: none; }
+.panel-placeholder-icon { color: var(--color-text-muted); opacity: 0.12; }
+.panel-placeholder-title { font-size: var(--text-base); font-weight: 600; color: var(--color-text-secondary); letter-spacing: -0.01em; }
+.panel-placeholder-hint { font-size: var(--text-sm); color: var(--color-text-muted); max-width: 200px; line-height: 1.5; }
+
+/* Panel scrollbars */
+.panel-scroll-container::-webkit-scrollbar { width: var(--scrollbar-width, 6px); height: var(--scrollbar-width, 6px); }
+.panel-scroll-container::-webkit-scrollbar-track { background: transparent; }
+.panel-scroll-container::-webkit-scrollbar-thumb { background: var(--color-scrollbar-thumb); border-radius: var(--radius-xs, 2px); }
+.panel-scroll-container::-webkit-scrollbar-thumb:hover { background: var(--color-scrollbar-hover); }
+
+/* Drag */
+.dock-layout .dock-bar.dragging, .dock-layout .dock-bar.dragging * { cursor: grabbing !important; user-select: none !important; }
+.dragged-panel { opacity: 0.85; border-radius: var(--panel-radius); box-shadow: var(--shadow-lg); }

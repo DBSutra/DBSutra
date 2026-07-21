@@ -1,0 +1,95 @@
+/* Command palette specific styles — overlay handled by Modal */
+.command-palette {
+  width: var(--command-palette-width, 540px);
+  max-height: min(85vh, 500px);
+}
+
+.cp-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-7);
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+}
+
+.cp-search-icon { color: var(--color-text-muted); flex-shrink: 0; }
+
+.cp-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: var(--text-md);
+  outline: none;
+}
+.cp-input::placeholder { color: var(--color-text-muted); }
+
+.cp-esc-hint {
+  font-size: var(--text-xs);
+  background: var(--color-bg-active);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.cp-results { max-height: 360px; overflow-y: auto; padding: var(--space-2) 0; }
+
+.cp-no-results {
+  padding: var(--space-8) var(--space-7);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.cp-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-7);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  gap: var(--space-4);
+  border-radius: var(--radius-md);
+  margin: 0 var(--space-2);
+}
+
+.cp-result:hover,
+.cp-result.cp-result-selected {
+  background: var(--color-bg-active);
+}
+
+.cp-result-content {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-result-title {
+  color: var(--color-text-primary);
+  font-size: var(--text-base);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cp-result-category {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.cp-keybinding {
+  font-size: var(--text-xs);
+  background: var(--color-bg-active);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}

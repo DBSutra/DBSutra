@@ -1,0 +1,171 @@
+.cm-editor-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ─── Editor base ──────────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-editor {
+  height: 100%;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+}
+
+.cm-editor-wrap .cm-editor.cm-focused {
+  outline: none;
+}
+
+.cm-editor-wrap .cm-scroller {
+  overflow: auto;
+  font-family: var(--font-mono);
+}
+
+.cm-editor-wrap .cm-content {
+  padding: var(--space-2) 0;
+  caret-color: var(--color-accent);
+  font-family: var(--font-mono);
+}
+
+.cm-editor-wrap .cm-line {
+  padding: 0 var(--space-4);
+}
+
+/* ─── Cursor ───────────────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-cursor,
+.cm-editor-wrap .cm-dropCursor {
+  border-left-color: var(--color-accent);
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-selectionBackground {
+  background: var(--color-bg-active) !important;
+}
+
+.cm-editor-wrap.cm-focused .cm-selectionBackground {
+  background: var(--color-bg-active) !important;
+}
+
+.cm-editor-wrap .cm-content ::selection {
+  background: var(--color-bg-active);
+}
+
+/* ─── Active line ──────────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-activeLine {
+  background: transparent;
+}
+
+.cm-editor-wrap .cm-activeLineGutter {
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+/* ─── Gutters (line numbers) ───────────────────────────────────────────── */
+.cm-editor-wrap .cm-gutters {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: none;
+}
+
+.cm-editor-wrap .cm-lineNumbers .cm-gutterElement {
+  padding: 0 8px 0 4px;
+  font-size: var(--text-xs);
+}
+
+/* ─── Bracket matching ─────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-matchingBracket {
+  background: var(--color-accent-light);
+  outline: none;
+}
+
+/* ─── Fold placeholder ─────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-foldPlaceholder {
+  background: var(--color-bg-active);
+  color: var(--color-text-muted);
+  border: none;
+  padding: 0 4px;
+}
+
+/* ─── Autocomplete tooltip ─────────────────────────────────────────────── */
+.cm-editor-wrap .cm-tooltip {
+  background: var(--color-bg-panel);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.cm-editor-wrap .cm-tooltip-autocomplete > ul {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  max-height: 300px;
+}
+
+.cm-editor-wrap .cm-tooltip-autocomplete > ul > li {
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cm-editor-wrap .cm-tooltip-autocomplete > ul > li[aria-selected] {
+  background: var(--color-bg-active);
+  color: var(--color-text-primary);
+}
+
+.cm-editor-wrap .cm-completionIcon {
+  width: 16px;
+  text-align: center;
+  font-size: var(--text-xs);
+  opacity: 0.6;
+}
+
+.cm-editor-wrap .cm-completionLabel {
+  font-family: var(--font-sans);
+}
+
+.cm-editor-wrap .cm-completionDetail {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-style: normal;
+  margin-left: var(--space-2);
+}
+
+/* ─── Search highlights ────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-searchMatch {
+  background: var(--color-accent-light);
+}
+
+.cm-editor-wrap .cm-searchMatch.cm-searchMatch-selected {
+  background: var(--color-accent);
+}
+
+/* ─── Fold gutter ──────────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-foldGutter .cm-gutterElement {
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.cm-editor-wrap .cm-foldGutter .cm-gutterElement:hover {
+  color: var(--color-text-primary);
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────── */
+.cm-editor-wrap .cm-scroller::-webkit-scrollbar {
+  width: var(--scrollbar-width-sm, 4px);
+  height: var(--scrollbar-width-sm, 4px);
+}
+
+.cm-editor-wrap .cm-scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cm-editor-wrap .cm-scroller::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-xs, 2px);
+}
+
+.cm-editor-wrap .cm-scroller::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-hover);
+}

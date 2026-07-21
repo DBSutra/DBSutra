@@ -1,0 +1,109 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  border: var(--border-width) solid transparent;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: -0.01em;
+}
+
+.btn:active { transform: scale(0.97); }
+
+/* Sizes */
+.btn-sm { height: 28px; padding: 0 var(--space-5); font-size: var(--text-sm); }
+.btn-md { height: 32px; padding: 0 var(--space-7); font-size: var(--text-base); }
+.btn-lg { height: 36px; padding: 0 18px; font-size: var(--text-md); }
+
+/* Variants */
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+.btn-primary:hover { background: var(--color-accent-hover); }
+
+.btn-secondary {
+  background: var(--color-bg-active);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+.btn-secondary:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-text-muted);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+.btn-ghost:hover {
+  background: var(--color-bg-active-subtle);
+  color: var(--color-text-primary);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-accent-text);
+}
+.btn-danger:hover { background: var(--color-error-hover); }
+
+/* Block */
+.btn-block { width: 100%; }
+
+/* Disabled */
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loading */
+.btn-loading { pointer-events: none; }
+.btn-loading .btn-spinner {
+  animation: spin 0.7s linear infinite;
+}
+
+/* Icon button */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.icon-btn:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-active-subtle);
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+.icon-btn.active {
+  color: var(--color-accent);
+}
+
+.icon-btn.danger:hover {
+  color: var(--color-error);
+  background: var(--color-error-subtle);
+}
+
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}

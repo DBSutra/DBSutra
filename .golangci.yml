@@ -1,0 +1,80 @@
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - errcheck
+    - gosimple
+    - unused
+    - ineffassign
+    - typecheck
+    - gocritic
+    - gofmt
+    - goimports
+    - misspell
+    - unconvert
+    - unparam
+    - wastedassign
+    - bodyclose
+    - noctx
+    - exportloopref
+    - makezero
+    - tparallel
+  disable:
+    - depguard
+    - funlen
+    - lll
+    - wsl
+    - nlreturn
+    - gomnd
+    - exhaustruct
+
+linters-settings:
+  govet:
+    check-shadowing: false
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+    disabled-checks:
+      - hugeParam
+      - rangeValCopy
+      - ifElseChain
+  misspell:
+    locale: US
+  goimports:
+    local-prefixes: clientdb
+
+issues:
+  max-issues-per-linter: 50
+  max-same-issues: 10
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+        - govet
+        - gocritic
+    - path: backend/log/
+      linters:
+        - errcheck
+    - linters:
+        - govet
+      text: "declaration of .err."
+  exclude-dirs:
+    - vendor
+    - frontend
+    - .reference-repos
+    - bindings
+    - bin
+
+severity:
+  default-severity: warning
+  rules:
+    - linters:
+        - errcheck
+        - govet
+      severity: error

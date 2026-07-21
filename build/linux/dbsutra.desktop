@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=DBSutra
+Comment=A modern database client
+Exec=/usr/bin/DBSutra
+Icon=dbsutra
+Type=Application
+Categories=Development;Database;
+Keywords=database;sql;postgres;mysql;mongo;redis;
+StartupWMClass=DBSutra

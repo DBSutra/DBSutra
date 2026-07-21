@@ -1,0 +1,25 @@
+.base-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-bg-panel);
+}
+
+.base-panel::-webkit-scrollbar {
+  width: var(--scrollbar-width, 6px);
+  height: var(--scrollbar-width, 6px);
+}
+
+.base-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.base-panel::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-xs, 2px);
+}
+
+.base-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-hover);
+}

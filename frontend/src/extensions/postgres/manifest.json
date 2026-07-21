@@ -1,0 +1,55 @@
+{
+  "id": "postgres",
+  "name": "PostgreSQL",
+  "version": "1.0.0",
+  "description": "PostgreSQL database support — connection, schema browser, query editor, results viewer",
+  "activationEvents": ["onStartup"],
+  "contributes": {
+    "databases": [
+      {
+        "type": "postgres",
+        "label": "PostgreSQL",
+        "icon": "postgres",
+        "defaultPort": 5432,
+        "queryLanguage": "sql",
+        "supportsSSH": true,
+        "supportsSSL": true
+      }
+    ],
+    "commands": [
+      {
+        "id": "newQuery",
+        "title": "New PostgreSQL Query",
+        "category": "PostgreSQL"
+      },
+      {
+        "id": "refreshSchema",
+        "title": "Refresh Schema",
+        "category": "PostgreSQL"
+      }
+    ],
+    "views": [
+      {
+        "id": "schema-explorer",
+        "title": "Schema Explorer",
+        "icon": "database",
+        "location": "sidebar",
+        "group": "database",
+        "order": 2
+      },
+      {
+        "id": "query-editor",
+        "title": "Query Editor",
+        "icon": "code",
+        "location": "editor"
+      },
+      {
+        "id": "results-viewer",
+        "title": "Results",
+        "icon": "table",
+        "location": "panel",
+        "order": 2
+      }
+    ]
+  }
+}

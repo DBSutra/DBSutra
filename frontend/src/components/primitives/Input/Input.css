@@ -1,0 +1,33 @@
+.ui-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ui-input {
+  background: var(--color-bg-input);
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font-sans);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.ui-input:focus {
+  border-color: var(--color-accent);
+}
+
+.ui-input-icon {
+  position: absolute;
+  left: var(--space-4);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.ui-input.with-icon {
+  padding-left: 28px;
+}

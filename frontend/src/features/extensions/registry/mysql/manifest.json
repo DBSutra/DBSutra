@@ -1,0 +1,25 @@
+{
+  "id": "mysql",
+  "name": "MySQL Support",
+  "version": "1.0.0",
+  "description": "Full MySQL database support with connection management, schema explorer, and query execution.",
+  "activationEvents": ["onStartup"],
+  "contributes": {
+    "commands": ["connect", "disconnect", "newQuery", "refreshSchema"],
+    "views": ["mysql.connectionForm", "mysql.schemaExplorer", "mysql.results"],
+    "databases": ["mysql"],
+    "themes": [],
+    "settings": {
+      "mysql.autoConnect": {
+        "type": "boolean",
+        "default": false,
+        "description": "Automatically reconnect on startup"
+      },
+      "mysql.queryTimeout": {
+        "type": "number",
+        "default": 30000,
+        "description": "Query timeout in milliseconds"
+      }
+    }
+  }
+}

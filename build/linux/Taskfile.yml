@@ -1,0 +1,97 @@
+version: '3'
+
+includes:
+  common: ../Taskfile.yml
+
+vars:
+  APP_NAME: "DBSutra"
+  BIN_DIR: "bin"
+
+tasks:
+  build:
+    summary: Builds and packages the application for Linux
+    cmds:
+      - task: build:native
+        vars:
+          ARCH: '{{.ARCH}}'
+          DEV: '{{.DEV}}'
+      - task: create:deb
+    vars:
+      ARCH: '{{.ARCH | default "amd64"}}'
+      DEV: '{{.DEV | default "false"}}'
+
+  build:native:
+    summary: Builds the application natively on Linux
+    internal: true
+    deps:
+      - task: common:go:mod:tidy
+      - task: common:build:frontend
+      - task: common:generate:dotdesktop
+    cmds:
+      - go build {{.BUILD_FLAGS}} -o "{{.BIN_DIR}}/{{.APP_NAME}}"
+    vars:
+      BUILD_FLAGS: '{{if eq .DEV "true"}}-buildvcs=false -gcflags=all="-l"{{else}}-tags production -trimpath -buildvcs=false -ldflags="-w -s"{{end}}'
+    env:
+      GOOS: linux
+      CGO_ENABLED: 1
+      GOARCH: '{{.ARCH | default "amd64"}}'
+
+  package:
+    summary: Creates Linux packages (DEB, AppImage)
+    deps:
+      - task: build
+    cmds:
+      - task: create:deb
+      - task: create:appimage
+
+  create:deb:
+    summary: Creates a .deb package
+    cmds:
+      - mkdir -p deb-root/DEBIAN deb-root/usr/bin deb-root/usr/share/applications deb-root/usr/share/icons/hicolor/256x256/apps
+      - cp {{.BIN_DIR}}/{{.APP_NAME}} deb-root/usr/bin/
+      - cp build/appicon.png deb-root/usr/share/icons/hicolor/256x256/apps/dbsutra.png
+      - cp build/linux/{{.APP_NAME}}.desktop deb-root/usr/share/applications/dbsutra.desktop 2>/dev/null || true
+      - |
+        cat > deb-root/DEBIAN/control << EOF
+        Package: dbsutra
+        Version: 1.0.0
+        Section: devel
+        Priority: optional
+        Architecture: amd64
+        Maintainer: Amit Anand <dropmail.amit@gmail.com>
+        Description: A modular, extensible desktop database client
+        EOF
+      - fakeroot dpkg-deb --build deb-root {{.BIN_DIR}}/{{.APP_NAME}}-linux-amd64.deb
+      - rm -rf deb-root
+
+  create:appimage:
+    summary: Creates an AppImage
+    cmds:
+      - mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
+      - cp {{.BIN_DIR}}/{{.APP_NAME}} AppDir/usr/bin/
+      - cp build/appicon.png AppDir/usr/share/icons/hicolor/256x256/apps/dbsutra.png
+      - cp build/linux/{{.APP_NAME}}.desktop AppDir/usr/share/applications/ 2>/dev/null || true
+      - |
+        cat > AppDir/AppRun << 'EOF'
+        #!/bin/sh
+        SELF=$(readlink -f "$0")
+        HERE=${SELF%/*}
+        exec "$HERE/usr/bin/DBSutra" "$@"
+        EOF
+      - chmod +x AppDir/AppRun
+      - ln -sf usr/share/applications/dbsutra.desktop AppDir/dbsutra.desktop
+      - ln -sf usr/share/icons/hicolor/256x256/apps/dbsutra.png AppDir/dbsutra.png
+      - wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool || true
+      - chmod +x /tmp/appimagetool
+      - /tmp/appimagetool AppDir {{.BIN_DIR}}/{{.APP_NAME}}-x86_64.AppImage || echo "AppImage creation requires FUSE"
+      - rm -rf AppDir
+
+  create:rpm:
+    summary: Creates an RPM package
+    cmds:
+      - echo "RPM packaging requires rpmbuild"
+
+  run:
+    summary: Runs the application
+    cmds:
+      - ./{{.BIN_DIR}}/{{.APP_NAME}}

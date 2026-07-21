@@ -1,0 +1,23 @@
+.qe-virtual-container {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  height: 100%;
+  flex: 1;
+}
+
+.qe-virtual-container::-webkit-scrollbar {
+  height: var(--scrollbar-width-sm, 4px);
+}
+.qe-virtual-container::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-xs, 2px);
+}
+.qe-virtual-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.qe-virtual-inner {
+  height: 100%;
+}

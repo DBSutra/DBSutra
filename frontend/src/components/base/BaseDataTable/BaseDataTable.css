@@ -1,0 +1,111 @@
+.base-dt {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg-panel);
+}
+
+.base-dt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  flex-shrink: 0;
+}
+
+.base-dt-filter {
+  flex: 1;
+  background: var(--color-bg-input);
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font-sans);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.base-dt-filter:focus {
+  border-color: var(--color-accent);
+}
+
+.base-dt-count {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.base-dt-table-wrap {
+  flex: 1;
+  overflow: auto;
+}
+
+.base-dt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+}
+
+.base-dt-th {
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-secondary);
+  padding: var(--space-3) var(--space-5);
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-bottom: var(--border-width) solid var(--color-border);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.base-dt-th.sortable {
+  cursor: pointer;
+}
+
+.base-dt-th.sortable:hover {
+  color: var(--color-text-primary);
+}
+
+.base-dt-sort-icon {
+  margin-left: var(--space-2);
+  opacity: 0.6;
+}
+
+.base-dt-row {
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.base-dt-row:hover {
+  background: var(--color-bg-hover);
+}
+
+.base-dt-td {
+  padding: var(--space-2) var(--space-5);
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.base-dt-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-top: var(--border-width) solid var(--color-border-subtle);
+  flex-shrink: 0;
+}
+
+.base-dt-page-info {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}

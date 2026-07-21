@@ -1,0 +1,149 @@
+.status-bar {
+  display: flex;
+  background: var(--color-statusbar-bg);
+  flex-shrink: 0;
+  font-size: var(--text-sm);
+  color: var(--color-statusbar-fg);
+  user-select: none;
+  z-index: 10;
+}
+
+.sb-horizontal {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--statusbar-height);
+  padding: 0 var(--space-5);
+}
+
+.sb-vertical {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--statusbar-height);
+  padding: var(--space-5) 0;
+}
+
+.sb-bottom {
+  border-top: var(--border-width) solid var(--color-border-subtle);
+}
+
+.sb-top {
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+}
+
+.sb-left {
+  border-right: var(--border-width) solid var(--color-border-subtle);
+}
+
+.sb-right {
+  border-left: var(--border-width) solid var(--color-border-subtle);
+}
+
+.sb-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.sb-vertical .sb-group {
+  flex-direction: column;
+}
+
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-statusbar-fg);
+  white-space: nowrap;
+}
+
+.sb-item-btn {
+  background: none;
+  border: none;
+  color: var(--color-statusbar-fg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.sb-item-btn:hover {
+  background: var(--color-bg-active-subtle);
+  color: var(--color-text-primary);
+}
+
+.sb-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sb-select {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.sb-select option {
+  background: var(--color-bg-panel);
+  color: var(--color-text-primary);
+}
+
+.sb-separator {
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.sb-horizontal .sb-separator {
+  width: var(--border-width);
+  height: var(--space-6);
+}
+
+.sb-vertical .sb-separator {
+  width: var(--space-6);
+  height: var(--border-width);
+}
+
+.sb-dot {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.sb-dot-green {
+  background: var(--color-success);
+  box-shadow: 0 0 var(--space-2) var(--color-success-glow);
+}
+
+.sb-running {
+  color: var(--color-accent-orange);
+}
+
+.sb-success {
+  color: var(--color-success);
+}
+
+.sb-error {
+  color: var(--color-error);
+}
+
+.sb-spin {
+  animation: spin 0.8s linear infinite;
+}

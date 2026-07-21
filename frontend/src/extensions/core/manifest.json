@@ -1,0 +1,152 @@
+{
+  "id": "core",
+  "name": "Core",
+  "version": "1.0.0",
+  "description": "Built-in core panels and commands",
+  "activationEvents": ["onStartup"],
+  "contributes": {
+    "commands": [
+      {
+        "id": "workbench.action.toggleSidebar",
+        "title": "Toggle Sidebar",
+        "category": "View",
+        "keybinding": "Ctrl+B"
+      },
+      {
+        "id": "workbench.action.togglePanel",
+        "title": "Toggle Panel",
+        "category": "View",
+        "keybinding": "Ctrl+J"
+      },
+      {
+        "id": "workbench.action.toggleActivityBar",
+        "title": "Toggle Activity Bar",
+        "category": "View"
+      },
+      {
+        "id": "workbench.action.toggleStatusBar",
+        "title": "Toggle Status Bar",
+        "category": "View"
+      },
+      {
+        "id": "workbench.action.commandPalette",
+        "title": "Command Palette",
+        "category": "General",
+        "keybinding": "Ctrl+Shift+P"
+      },
+      {
+        "id": "workbench.action.settings",
+        "title": "Open Settings",
+        "category": "General",
+        "keybinding": "Ctrl+,"
+      },
+      {
+        "id": "workbench.action.openConnections",
+        "title": "Open Connections",
+        "category": "General"
+      },
+      {
+        "id": "workbench.action.openHistory",
+        "title": "Open History",
+        "category": "General"
+      },
+      {
+        "id": "workbench.action.newQuery",
+        "title": "New Query",
+        "category": "Editor",
+        "keybinding": "Ctrl+N"
+      },
+      {
+        "id": "workbench.action.closeTab",
+        "title": "Close Tab",
+        "category": "Editor",
+        "keybinding": "Ctrl+W"
+      },
+      {
+        "id": "workbench.action.nextTab",
+        "title": "Next Tab",
+        "category": "Editor",
+        "keybinding": "Ctrl+Tab"
+      },
+      {
+        "id": "workbench.action.prevTab",
+        "title": "Previous Tab",
+        "category": "Editor",
+        "keybinding": "Ctrl+Shift+Tab"
+      },
+      {
+        "id": "editor.action.runQuery",
+        "title": "Run Query",
+        "category": "Editor",
+        "keybinding": "F5"
+      },
+      {
+        "id": "editor.action.saveTab",
+        "title": "Save Tab",
+        "category": "Editor",
+        "keybinding": "Ctrl+S"
+      },
+      {
+        "id": "workbench.action.focusPanel.1",
+        "title": "Focus Panel 1",
+        "category": "View",
+        "keybinding": "Ctrl+1"
+      },
+      {
+        "id": "workbench.action.focusPanel.2",
+        "title": "Focus Panel 2",
+        "category": "View",
+        "keybinding": "Ctrl+2"
+      },
+      {
+        "id": "workbench.action.focusPanel.3",
+        "title": "Focus Panel 3",
+        "category": "View",
+        "keybinding": "Ctrl+3"
+      },
+      {
+        "id": "workbench.action.focusPanel.4",
+        "title": "Focus Panel 4",
+        "category": "View",
+        "keybinding": "Ctrl+4"
+      },
+      {
+        "id": "workbench.action.focusPanel.5",
+        "title": "Focus Panel 5",
+        "category": "View",
+        "keybinding": "Ctrl+5"
+      },
+      {
+        "id": "workbench.action.focusNextPanel",
+        "title": "Focus Next Panel",
+        "category": "View",
+        "keybinding": "Ctrl+]"
+      },
+      {
+        "id": "workbench.action.focusPrevPanel",
+        "title": "Focus Previous Panel",
+        "category": "View",
+        "keybinding": "Ctrl+["
+      },
+      {
+        "id": "workbench.action.maximizePanel",
+        "title": "Maximize Panel",
+        "category": "View"
+      },
+      {
+        "id": "workbench.action.minimizePanel",
+        "title": "Minimize Panel",
+        "category": "View"
+      },
+      {
+        "id": "workbench.action.toggleTheme",
+        "title": "Switch Theme",
+        "category": "Appearance"
+      }
+    ],
+    "views": [],
+    "databases": [],
+    "themes": [],
+    "settings": []
+  }
+}

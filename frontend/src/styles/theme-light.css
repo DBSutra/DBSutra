@@ -1,0 +1,27 @@
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+   ═══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] {
+  --color-bg-primary:     #fafafa;    --color-bg-secondary:   #f0f0f0;
+  --color-bg-tertiary:    #e8e8e8;    --color-bg-active:      #e0e0e0;
+  --color-bg-hover:       #ebebeb;    --color-bg-hover-subtle: rgba(0, 0, 0, 0.04);
+  --color-bg-active-subtle: rgba(0, 0, 0, 0.08);
+  --color-bg-input:       #ffffff;    --color-bg-panel:       #ffffff;
+  --color-bg-surface:     #fafafa;
+  --color-border:         #e0e0e0;    --color-border-subtle:  #ececec;
+  --color-text-primary:   #1f1f1f;    --color-text-secondary: #555555;
+  --color-text-muted:     #999999;    --color-text-heading:   #111111;
+  --color-activitybar-bg: #fafafa;    --color-activitybar-fg: #999999;
+  --color-editor-bg:      #ffffff;
+  --color-scrollbar-thumb: rgba(0, 0, 0, 0.15);
+  --color-scrollbar-hover: rgba(0, 0, 0, 0.25);
+  --color-statusbar-bg:   #f0f0f0;   --color-statusbar-fg:   #555555;
+  --color-success-subtle: rgba(44, 187, 93, 0.1);
+  --color-error-subtle:   rgba(229, 57, 53, 0.08);
+  --color-error-border:   rgba(229, 57, 53, 0.3);
+  --color-null-text:      rgba(85, 85, 85, 0.5);  --color-pk-icon: #b8942b;
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

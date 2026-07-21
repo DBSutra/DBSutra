@@ -1,0 +1,29 @@
+{
+  "id": "mongodb",
+  "name": "MongoDB",
+  "version": "1.0.0",
+  "description": "MongoDB database support — connection, collection browser, query editor, results viewer",
+  "activationEvents": ["onStartup"],
+  "contributes": {
+    "databases": [
+      {
+        "type": "mongodb",
+        "label": "MongoDB",
+        "icon": "mongodb",
+        "defaultPort": 27017,
+        "queryLanguage": "mongodb",
+        "supportsSSH": true,
+        "supportsSSL": true
+      }
+    ],
+    "commands": [
+      { "id": "newQuery", "title": "New MongoDB Query", "category": "MongoDB" },
+      { "id": "refreshSchema", "title": "Refresh Collections", "category": "MongoDB" }
+    ],
+    "views": [
+      { "id": "collection-browser", "title": "Collections", "icon": "database", "location": "sidebar", "group": "database", "order": 4 },
+      { "id": "query-editor", "title": "Query Editor", "icon": "code", "location": "editor" },
+      { "id": "results-viewer", "title": "Results", "icon": "table", "location": "panel", "order": 4 }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/bin/
+frontend/bindings/
+frontend/wailsjs/
+*.min.js
+*.min.css
+go.sum
+package-lock.json

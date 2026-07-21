@@ -1,0 +1,288 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  GO_VERSION: "1.26.1"
+  NODE_VERSION: "24"
+  WAILS_VERSION: "v3.0.0-alpha2.117"
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Build Matrix — all platform variants
+  # ─────────────────────────────────────────────────────────────
+  build-macos:
+    strategy:
+      matrix:
+        arch: [arm64, amd64]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v3/cmd/wails3@${{ env.WAILS_VERSION }}
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm ci --legacy-peer-deps && npm run build
+      - name: Generate Bindings
+        run: wails3 generate bindings
+      - name: Generate Icons
+        run: wails3 generate icons -input build/appicon.png -macfilename build/darwin/icons.icns -windowsfilename build/windows/icon.ico || cp build/appicon.png build/darwin/icons.icns
+      - name: Set version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - name: Build Binary
+        env:
+          CGO_CFLAGS: "-mmacosx-version-min=12.0"
+          CGO_LDFLAGS: "-mmacosx-version-min=12.0"
+          MACOSX_DEPLOYMENT_TARGET: "12.0"
+        run: |
+          if [ "${{ matrix.arch }}" = "amd64" ]; then
+            CGO_CFLAGS="-mmacosx-version-min=12.0 -arch x86_64" \
+            CGO_LDFLAGS="-mmacosx-version-min=12.0 -arch x86_64" \
+            GOARCH=amd64 go build -tags production -ldflags="-w -s -X main.version=${{ steps.version.outputs.version }}" -o bin/DBSutra
+          else
+            go build -tags production -ldflags="-w -s -X main.version=${{ steps.version.outputs.version }}" -o bin/DBSutra
+          fi
+      - name: Create .app Bundle
+        run: |
+          mkdir -p bin/DBSutra.app/Contents/{MacOS,Resources}
+          cp bin/DBSutra bin/DBSutra.app/Contents/MacOS/
+          cp build/darwin/icons.icns bin/DBSutra.app/Contents/Resources/AppIcon.icns
+          cp build/darwin/Info.plist bin/DBSutra.app/Contents/
+          # Hardened runtime for notarization
+          codesign --force --deep --sign - \
+            --options runtime \
+            --entitlements build/darwin/entitlements.plist \
+            bin/DBSutra.app || \
+          codesign --force --deep --sign - bin/DBSutra.app || true
+      - name: Create DMG
+        run: |
+          mkdir -p dmg-staging
+          cp -R bin/DBSutra.app dmg-staging/
+          ln -sf /Applications dmg-staging/Applications
+          hdiutil create -volname "DBSutra" -srcfolder dmg-staging -ov -format UDZO "bin/DBSutra-macOS-${{ matrix.arch }}.dmg"
+          rm -rf dmg-staging
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.arch }}
+          path: |
+            bin/DBSutra-macOS-${{ matrix.arch }}.dmg
+            bin/DBSutra.app
+
+  build-windows:
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v3/cmd/wails3@${{ env.WAILS_VERSION }}
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm ci --legacy-peer-deps && npm run build
+      - name: Generate Bindings
+        run: wails3 generate bindings
+      - name: Set version
+        id: version
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - name: Build Binary
+        run: go build -tags production -ldflags="-w -s -H windowsgui -X main.version=${{ steps.version.outputs.version }}" -o bin/DBSutra.exe
+      - name: Create Portable ZIP
+        run: |
+          cd bin
+          7z a "DBSutra-Windows-${{ matrix.arch }}.zip" DBSutra.exe
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.arch }}
+          path: |
+            bin/DBSutra-Windows-${{ matrix.arch }}.zip
+            bin/DBSutra.exe
+
+  build-linux:
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libgtk-4-dev libwebkitgtk-6.0-dev pkg-config fakeroot
+          if [ "${{ matrix.arch }}" = "arm64" ]; then
+            sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+          fi
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v3/cmd/wails3@${{ env.WAILS_VERSION }}
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm ci --legacy-peer-deps && npm run build
+      - name: Generate Bindings
+        run: wails3 generate bindings
+      - name: Set version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - name: Build Binary
+        run: |
+          if [ "${{ matrix.arch }}" = "arm64" ]; then
+            CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ CGO_ENABLED=1 GOARCH=arm64 \
+            go build -tags production -ldflags="-w -s -X main.version=${{ steps.version.outputs.version }}" -o bin/DBSutra
+          else
+            go build -tags production -ldflags="-w -s -X main.version=${{ steps.version.outputs.version }}" -o bin/DBSutra
+          fi
+      - name: Create DEB Package
+        run: |
+          mkdir -p deb-root/DEBIAN deb-root/usr/bin deb-root/usr/share/applications deb-root/usr/share/icons/hicolor/256x256/apps
+          cp bin/DBSutra deb-root/usr/bin/
+          cp build/appicon.png deb-root/usr/share/icons/hicolor/256x256/apps/dbsutra.png
+          cp build/linux/dbsutra.desktop deb-root/usr/share/applications/ 2>/dev/null || true
+          cat > deb-root/usr/share/applications/dbsutra.desktop << 'EOF'
+          [Desktop Entry]
+          Name=DBSutra
+          Exec=/usr/bin/DBSutra
+          Icon=dbsutra
+          Type=Application
+          Categories=Development;Database;
+          Comment=A modern database client
+          EOF
+          cat > deb-root/DEBIAN/control << EOF
+          Package: dbsutra
+          Version: ${{ steps.version.outputs.version }}
+          Section: devel
+          Priority: optional
+          Architecture: ${{ matrix.arch == 'arm64' && 'arm64' || 'amd64' }}
+          Maintainer: Amit Anand <dropmail.amit@gmail.com>
+          Description: A modern, cross-platform database client
+           DBSutra supports PostgreSQL, MySQL, SQLite, MongoDB, Redis, and Elasticsearch.
+          EOF
+          fakeroot dpkg-deb --build deb-root "bin/DBSutra-Linux-${{ matrix.arch }}.deb"
+      - name: Create AppImage (amd64 only)
+        if: matrix.arch == 'amd64'
+        run: |
+          mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
+          cp bin/DBSutra AppDir/usr/bin/
+          cp build/appicon.png AppDir/usr/share/icons/hicolor/256x256/apps/dbsutra.png
+          cat > AppDir/AppRun << 'APPRUN'
+          #!/bin/sh
+          SELF=$(readlink -f "$0")
+          HERE=${SELF%/*}
+          exec "$HERE/usr/bin/DBSutra" "$@"
+          APPRUN
+          chmod +x AppDir/AppRun
+          cat > AppDir/dbsutra.desktop << 'DESKTOP'
+          [Desktop Entry]
+          Name=DBSutra
+          Exec=DBSutra
+          Icon=dbsutra
+          Type=Application
+          Categories=Development;Database;
+          DESKTOP
+          ln -sf usr/share/icons/hicolor/256x256/apps/dbsutra.png AppDir/dbsutra.png
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
+          chmod +x /tmp/appimagetool
+          /tmp/appimagetool AppDir "bin/DBSutra-Linux-x86_64.AppImage" || echo "AppImage build skipped (FUSE required)"
+          rm -rf AppDir
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.arch }}
+          path: |
+            bin/DBSutra-Linux-${{ matrix.arch }}.deb
+            bin/DBSutra-Linux-*.AppImage
+            bin/DBSutra
+
+  # ─────────────────────────────────────────────────────────────
+  # Release
+  # ─────────────────────────────────────────────────────────────
+  release:
+    needs: [build-macos, build-windows, build-linux]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: List artifacts
+        run: find artifacts -type f | sort
+      - name: Generate SHA256SUMS
+        run: |
+          cd artifacts
+          find . -type f \( -name "*.dmg" -o -name "*.zip" -o -name "*.deb" -o -name "*.AppImage" -o -name "*.exe" \) -exec sha256sum {} \; > ../SHA256SUMS
+          cd ..
+          cat SHA256SUMS
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "DBSutra ${{ github.ref_name }}"
+          body: |
+            ## DBSutra ${{ github.ref_name }}
+
+            ### Downloads
+            | Platform | Architecture | Format |
+            |----------|-------------|--------|
+            | macOS | Apple Silicon (arm64) | .dmg |
+            | macOS | Intel (amd64) | .dmg |
+            | Windows | x64 | .zip |
+            | Windows | ARM64 | .zip |
+            | Linux | x64 | .deb, .AppImage |
+            | Linux | ARM64 | .deb |
+
+            ### Installation
+            **macOS**: Open the .dmg and drag DBSutra to Applications
+            **Windows**: Extract .zip and run DBSutra.exe
+            **Linux**: `sudo dpkg -i DBSutra-Linux-amd64.deb` or use AppImage
+
+            ### Verification
+            Verify download integrity using the SHA256SUMS file.
+
+            ---
+            *Auto-updates: DBSutra will notify you when new versions are available.*
+          files: |
+            artifacts/**/*.dmg
+            artifacts/**/*.zip
+            artifacts/**/*.deb
+            artifacts/**/*.AppImage
+            artifacts/**/*.exe
+            artifacts/**/DBSutra
+            SHA256SUMS
+          draft: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

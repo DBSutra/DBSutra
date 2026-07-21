@@ -1,0 +1,100 @@
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — Complete CSS variable system
+   All values here are DEFAULTS. At runtime, SettingsEngine loads
+   persisted values from SQLite and overrides them via
+   document.documentElement.style.setProperty().
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Spacing Scale */
+  --space-1:  2px;  --space-2:  4px;  --space-3:  6px;  --space-4:  8px;
+  --space-5:  10px; --space-6:  12px; --space-7:  14px; --space-8:  16px;
+  --space-9:  18px; --space-10: 20px; --space-12: 24px; --space-14: 28px;
+  --space-16: 32px; --space-36: 72px; --space-50: 125px;
+
+  /* Border Radius */
+  --radius-xs:   2px;   --radius-sm:   4px;   --radius-md:   6px;
+  --radius-lg:   8px;   --radius-xl:   12px;  --radius-full: 9999px;
+
+  /* Borders */
+  --border-width:      1px;  --border-width-bold: 2px;
+  --color-border:       #3a3a3a;  --color-border-subtle: #2e2e2e;
+
+  /* Transitions */
+  --transition-fast:   80ms ease;
+  --transition-normal: 150ms ease;
+  --transition-spring: 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Backgrounds */
+  --color-bg-primary:     #1a1a1a;    --color-bg-secondary:   #262626;
+  --color-bg-tertiary:    #2a2a2a;    --color-bg-active:      #333333;
+  --color-bg-hover:       #2f2f2f;    --color-bg-hover-subtle: rgba(255, 255, 255, 0.04);
+  --color-bg-active-subtle: rgba(255, 255, 255, 0.08);
+  --color-bg-input:       #333333;    --color-bg-overlay:     rgba(0, 0, 0, 0.55);
+  --color-bg-panel:       #282828;    --color-bg-surface:     #1e1e1e;
+  --color-bg-editor:      var(--color-bg-surface);
+  --color-bg-tabbar:      var(--color-bg-panel);
+  --color-bg-tab-inactive: transparent;
+  --color-bg-tab-active:  var(--color-bg-panel);
+
+  /* Text */
+  --color-text-primary:   #eff1f6;  --color-text-secondary: #a3a3a3;
+  --color-text-muted:     #5c5c5c;  --color-text-heading:   #f5f5f5;
+
+  /* Accent Colors */
+  --color-accent:         #2cbb5d;   --color-accent-hover:   #36d068;
+  --color-accent-light:   rgba(44, 187, 93, 0.12);
+  --color-accent-subtle:  rgba(44, 187, 93, 0.06);
+  --color-accent-faint:   rgba(44, 187, 93, 0.03);
+  --color-accent-text:    #ffffff;
+  --color-accent-blue:    #4d90fe;   --color-accent-orange:  #ffa116;
+
+  /* Status Colors */
+  --color-success:        #2cbb5d;
+  --color-success-subtle: rgba(44, 187, 93, 0.1);
+  --color-success-glow:   rgba(44, 187, 93, 0.4);
+  --color-error:          #ef4743;
+  --color-error-subtle:   rgba(239, 71, 67, 0.1);
+  --color-error-border:   rgba(239, 71, 67, 0.3);
+  --color-error-hover:    #d93c3a;
+  --color-warning:        #ffa116;   --color-danger:         var(--color-error);
+
+  /* Shadows */
+  --shadow-md:    0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg:    0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+  /* Activity Bar */
+  --color-activitybar-bg:         #1a1a1a;
+  --color-activitybar-fg:         #5c5c5c;
+  --color-activitybar-active-fg:  #eff1f6;
+
+  /* Status Bar / Editor / Scrollbar */
+  --color-statusbar-bg: #262626;  --color-statusbar-fg: #a3a3a3;
+  --color-editor-bg: #1a1a1a;
+  --color-scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --color-scrollbar-hover: rgba(255, 255, 255, 0.18);
+
+  /* Semantic Colors */
+  --color-null-text: rgba(163, 163, 163, 0.5);  --color-pk-icon: #dbb851;
+  --color-db-mysql:    #e48e00;  --color-db-postgres: #336791;  --color-db-mongo: #4db33d;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --text-xs: 10px; --text-sm: 12px; --text-base: 13px;
+  --text-md: 14px; --text-lg: 16px; --text-xl: 18px;
+
+  /* Component Sizes */
+  --panel-radius: var(--radius-md);  --panel-gap: 1px;  --divider-size: 3px;
+  --tabbar-height: 36px;  --tab-height: 32px;
+  --tab-padding-left: 10px;  --tab-padding-right: 28px;
+  --statusbar-height: 24px;  --activitybar-width: 40px;
+  --scrollbar-width: 6px;  --scrollbar-width-sm: 4px;
+  --command-palette-width: 540px;  --command-palette-offset: 72px;
+
+  /* Focus Ring */
+  --focus-ring-width: 2px;
+  --focus-ring-color: var(--color-accent-blue);
+  --focus-ring-offset: 0px;
+}

@@ -1,0 +1,65 @@
+{
+  "id": "mysql",
+  "name": "MySQL",
+  "version": "1.0.0",
+  "description": "MySQL database support — connection, schema browser, query editor, results viewer",
+  "activationEvents": ["onStartup"],
+  "contributes": {
+    "databases": [
+      {
+        "type": "mysql",
+        "label": "MySQL",
+        "icon": "mysql",
+        "defaultPort": 3306,
+        "queryLanguage": "sql",
+        "supportsSSH": true,
+        "supportsSSL": true
+      }
+    ],
+    "commands": [
+      {
+        "id": "newQuery",
+        "title": "New MySQL Query",
+        "category": "MySQL",
+        "icon": "play"
+      },
+      {
+        "id": "refreshSchema",
+        "title": "Refresh Schema",
+        "category": "MySQL",
+        "icon": "refresh"
+      }
+    ],
+    "views": [
+      {
+        "id": "schema-explorer",
+        "title": "Schema Explorer",
+        "icon": "database",
+        "location": "sidebar",
+        "group": "database",
+        "order": 1
+      },
+      {
+        "id": "query-editor",
+        "title": "Query Editor",
+        "icon": "code",
+        "location": "editor"
+      },
+      {
+        "id": "results-viewer",
+        "title": "Results",
+        "icon": "table",
+        "location": "panel",
+        "order": 1
+      }
+    ],
+    "settings": [
+      {
+        "key": "mysql.defaultLimit",
+        "type": "number",
+        "default": 100,
+        "description": "Default row limit for SELECT queries"
+      }
+    ]
+  }
+}

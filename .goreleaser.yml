@@ -1,0 +1,222 @@
+version: 2
+
+project_name: DBSutra
+
+before:
+  hooks:
+    - go mod tidy
+    - cd frontend && npm ci --legacy-peer-deps && npm run build
+    - wails3 generate bindings
+    - wails3 generate icons -input build/appicon.png
+
+builds:
+  - id: dbsutra-darwin-arm64
+    main: .
+    binary: DBSutra
+    goos: [darwin]
+    goarch: [arm64]
+    tags: [production]
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.Date}}
+    env:
+      - CGO_ENABLED=1
+      - CC=clang
+      - CXX=clang++
+      - CGO_CFLAGS=-mmacosx-version-min=12.0
+      - CGO_LDFLAGS=-mmacosx-version-min=12.0
+
+  - id: dbsutra-darwin-amd64
+    main: .
+    binary: DBSutra
+    goos: [darwin]
+    goarch: [amd64]
+    tags: [production]
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.Date}}
+    env:
+      - CGO_ENABLED=1
+      - CC=clang
+      - CXX=clang++
+      - CGO_CFLAGS=-mmacosx-version-min=12.0 -arch x86_64
+      - CGO_LDFLAGS=-mmacosx-version-min=12.0 -arch x86_64
+
+  - id: dbsutra-windows-amd64
+    main: .
+    binary: DBSutra
+    goos: [windows]
+    goarch: [amd64]
+    tags: [production]
+    ldflags:
+      - -s -w -H windowsgui
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.Date}}
+    env:
+      - CGO_ENABLED=1
+      - CC=x86_64-w64-mingw32-gcc
+      - CXX=x86_64-w64-mingw32-g++
+
+  - id: dbsutra-windows-arm64
+    main: .
+    binary: DBSutra
+    goos: [windows]
+    goarch: [arm64]
+    tags: [production]
+    ldflags:
+      - -s -w -H windowsgui
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.Date}}
+    env:
+      - CGO_ENABLED=1
+
+  - id: dbsutra-linux-amd64
+    main: .
+    binary: DBSutra
+    goos: [linux]
+    goarch: [amd64]
+    tags: [production]
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.Date}}
+    env:
+      - CGO_ENABLED=1
+      - CC=gcc
+      - CXX=g++
+
+  - id: dbsutra-linux-arm64
+    main: .
+    binary: DBSutra
+    goos: [linux]
+    goarch: [arm64]
+    tags: [production]
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.Date}}
+    env:
+      - CGO_ENABLED=1
+      - CC=aarch64-linux-gnu-gcc
+      - CXX=aarch64-linux-gnu-g++
+
+universal_binaries:
+  - id: dbsutra-darwin-universal
+    ids: [dbsutra-darwin-arm64, dbsutra-darwin-amd64]
+    replace: true
+    name_template: DBSutra
+
+archives:
+  - id: default
+    format: tar.gz
+    name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+
+dockers:
+  - image_templates:
+      - "ghcr.io/dbsutra/dbsutra:{{ .Version }}-amd64"
+    use: buildx
+    build_flag_templates:
+      - "--platform=linux/amd64"
+    dockerfile: Dockerfile
+    goos: linux
+    goarch: amd64
+
+checksum:
+  name_template: "SHA256SUMS"
+  algorithm: sha256
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+      - "^chore:"
+      - "^style:"
+      - "^refactor:"
+  groups:
+    - title: "🚀 Features"
+      regexp: "^.*feat[(\\:].*$$"
+      order: 0
+    - title: "🐛 Bug Fixes"
+      regexp: "^.*fix[(\\:].*$$"
+      order: 1
+    - title: "📦 Dependencies"
+      regexp: "^.*build[(\\:].*$$"
+      order: 2
+    - title: "Others"
+      order: 999
+
+release:
+  github:
+    owner: DBSutra
+    name: DBSutra
+  draft: false
+  prerelease: auto
+  name_template: "v{{ .Version }}"
+  header: |
+    ## What's Changed
+
+    {{ .Changelog }}
+
+    ### Installation
+    - **macOS**: Download the `.dmg` file, open it, and drag DBSutra to Applications
+    - **Windows**: Download the `.exe` installer or `.zip` portable
+    - **Linux**: Download `.deb`, `.rpm`, or `.AppImage`
+  footer: |
+    **Full Changelog**: https://github.com/DBSutra/DBSutra/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+brews:
+  - repository:
+      owner: DBSutra
+      name: homebrew-dbsutra
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/DBSutra/DBSutra"
+    description: "A modern, cross-platform database client"
+    license: "Proprietary"
+    test: |
+      system "#{bin}/DBSutra", "--version"
+    install: |
+      bin.install "DBSutra" if OS.linux?
+      if OS.mac?
+        prefix.install "DBSutra.app"
+        bin.install_symlink "#{prefix}/DBSutra.app/Contents/MacOS/DBSutra"
+      end
+
+nfpms:
+  - id: dbsutra-nfpm
+    package_name: dbsutra
+    license: Proprietary
+    maintainer: "Amit Anand <dropmail.amit@gmail.com>"
+    homepage: "https://github.com/DBSutra/DBSutra"
+    description: "A modern, cross-platform database client"
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    contents:
+      - src: build/appicon.png
+        dst: /usr/share/icons/hicolor/256x256/apps/dbsutra.png
+      - src: build/linux/dbsutra.desktop
+        dst: /usr/share/applications/dbsutra.desktop
+
+signs:
+  - artifacts: checksum
+    cmd: cosign
+    args: ["sign-blob", "--yes", "--output-signature", "${signature}", "${artifact}"]

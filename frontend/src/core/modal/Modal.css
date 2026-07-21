@@ -1,0 +1,37 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: modalFadeIn var(--transition-fast) ease;
+  backdrop-filter: blur(var(--space-2));
+  -webkit-backdrop-filter: blur(var(--space-2));
+  overflow-y: auto;
+  padding: var(--space-6) 0;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-content {
+  background: var(--color-bg-panel);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+  animation: modalSlideIn var(--transition-spring) forwards;
+  outline: none;
+  max-height: calc(100vh - var(--space-12));
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalSlideIn {
+  from { transform: translateY(calc(-1 * var(--space-2))) scale(0.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
