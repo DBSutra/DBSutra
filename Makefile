@@ -8,7 +8,7 @@ dev: ## Run development server with hot reload
 
 # ── Build ───────────────────────────────────────────────────────
 build: ## Build for current platform
-	cd frontend && npm ci --legacy-peer-deps && npm run build
+	cd frontend && npm ci && npm run build
 	wails3 generate bindings
 	go build -tags production -ldflags="-w -s" -o bin/DBSutra
 

@@ -44,7 +44,7 @@ export const SSHTunnelFields: React.FC<Props> = ({ form, update, updateSSH }) =>
           <button className={`cf-mode-btn ${!form.ssh.keyFile ? 'active' : ''}`} onClick={() => updateSSH('keyFile', '')} disabled={!form.sshEnabled}>
             <Icon name="lock" size={13} /><span>Password</span>
           </button>
-          <button className={`cf-mode-btn ${!!form.ssh.keyFile ? 'active' : ''}`} onClick={() => updateSSH('keyFile', '~/.ssh/id_rsa')} disabled={!form.sshEnabled}>
+          <button className={`cf-mode-btn ${form.ssh.keyFile ? 'active' : ''}`} onClick={() => updateSSH('keyFile', '~/.ssh/id_rsa')} disabled={!form.sshEnabled}>
             <Icon name="key" size={13} /><span>Key File</span>
           </button>
         </div>

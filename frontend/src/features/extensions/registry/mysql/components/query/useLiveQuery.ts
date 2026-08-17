@@ -55,7 +55,7 @@ export function useLiveQuery(activeTab: EditorTab | null) {
     if (dbType === 'mongodb') {
       const baseMatch = new RegExp(`^db\\.${tableName}\\.find\\(`, 'i')
       if (baseMatch.test(sql)) {
-        let queryObj: any = {}
+        const queryObj: any = {}
         if (col && val) {
           const isNum = !isNaN(Number(val)) && val.trim() !== ''
           const numVal = isNum ? Number(val) : val

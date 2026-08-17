@@ -3,8 +3,9 @@
  * Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
  * See LICENSE file in the project root for full license information.
  */
-import React, { RefObject } from 'react'
-import DockLayout from 'rc-dock'
+import type { RefObject } from 'react';
+import React from 'react'
+import type DockLayout from 'rc-dock'
 import { Icon } from '@primitives'
 import { PanelManager } from '@core/panels/PanelManager'
 import './ActivityBar.css'

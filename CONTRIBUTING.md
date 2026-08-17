@@ -22,7 +22,7 @@ the guidelines and procedures for contributing to this project.
 | Go        | 1.26+           | Backend language                   |
 | Node.js   | 24+             | Frontend build tooling             |
 | npm       | 10+             | Package manager (ships with Node)  |
-| Wails v3  | alpha.117+      | Desktop application framework      |
+| Wails v3  | beta.9+         | Desktop application framework      |
 
 ### Installation
 
@@ -241,5 +241,5 @@ fix(ssh): close tunnel listener on connection failure
 docs: add architecture diagram to README
 refactor(state): extract query history into dedicated module
 test(db): add unit tests for MySQL driver
-chore(deps): update Wails to v3.0.0-alpha.117
+chore(deps): update Wails to v3.0.0-beta.9
 ```

@@ -5,7 +5,7 @@ project_name: DBSutra
 before:
   hooks:
     - go mod tidy
-    - cd frontend && npm ci --legacy-peer-deps && npm run build
+    - cd frontend && npm ci && npm run build
     - wails3 generate bindings
     - wails3 generate icons -input build/appicon.png
 

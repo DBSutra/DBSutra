@@ -11,9 +11,9 @@ permissions:
   security-events: write
 
 env:
-  GO_VERSION: "1.26.1"
+  GO_VERSION: "1.26.6"
   NODE_VERSION: "24"
-  WAILS_VERSION: "v3.0.0-alpha2.117"
+  WAILS_VERSION: "v3.0.0-beta.9"
 
 jobs:
   # ─────────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         working-directory: frontend
-        run: npm ci --legacy-peer-deps
+        run: npm ci
       - name: ESLint
         working-directory: frontend
         run: npm run lint
@@ -79,7 +79,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         working-directory: frontend
-        run: npm ci --legacy-peer-deps
+        run: npm ci
       - name: Run unit tests
         working-directory: frontend
         run: npm run test:coverage
@@ -165,7 +165,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         working-directory: frontend
-        run: npm ci --legacy-peer-deps
+        run: npm ci
       - name: npm audit
         working-directory: frontend
         run: npm audit --audit-level=moderate

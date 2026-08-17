@@ -43,9 +43,9 @@ parts:
       - npm
     override-build: |
       cd frontend
-      npm ci --legacy-peer-deps
+      npm ci
       npm run build
       cd ..
-      go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-alpha2.117
+      go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-beta.9
       wails3 generate bindings
       go build -tags production -ldflags="-w -s" -o $SNAPCRAFT_PART_INSTALL/usr/bin/DBSutra

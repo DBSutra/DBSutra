@@ -4,7 +4,8 @@
  * See LICENSE file in the project root for full license information.
  */
 import React, { useEffect, useRef, useCallback, useState } from 'react'
-import DockLayout, { LayoutData, TabData } from 'rc-dock'
+import type { LayoutData, TabData } from 'rc-dock';
+import DockLayout from 'rc-dock'
 import 'rc-dock/dist/rc-dock-dark.css'
 import { ActivityBar } from '@chrome/ActivityBar'
 import { StatusBar } from '@chrome/StatusBar'

@@ -8,9 +8,9 @@ import (
 	"clientdb/backend/db"
 	"encoding/json"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -46,7 +46,7 @@ func (d *Driver) handleFindOne(collection, rest string) (*db.QueryResult, error)
 	var result bson.M
 	err := coll.FindOne(d.ctx, filter).Decode(&result)
 	if err != nil {
-		if err.Error() == "mongo: no documents in result" {
+		if err == mongo.ErrNoDocuments {
 			return &db.QueryResult{Columns: []string{"info"}, Rows: [][]interface{}{{"no documents found"}}}, nil
 		}
 		return &db.QueryResult{Error: err.Error()}, nil
