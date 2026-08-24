@@ -7,7 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.10.0
 	github.com/lib/pq v1.12.3
 	github.com/redis/go-redis/v9 v9.22.0
-	github.com/wailsapp/wails/v3 v3.0.0-beta.9
+	github.com/wailsapp/wails/v3 v3.0.0-beta.11
 	go.mongodb.org/mongo-driver/v2 v2.8.0
 	golang.org/x/crypto v0.55.0
 	modernc.org/sqlite v1.56.0
