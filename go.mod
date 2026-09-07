@@ -9,7 +9,7 @@ require (
 	github.com/redis/go-redis/v9 v9.22.0
 	github.com/wailsapp/wails/v3 v3.0.0-beta.9
 	go.mongodb.org/mongo-driver/v2 v2.8.0
-	golang.org/x/crypto v0.55.0
+	golang.org/x/crypto v0.56.0
 	modernc.org/sqlite v1.56.0
 )
 
