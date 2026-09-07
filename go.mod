@@ -4,7 +4,7 @@ go 1.26.3
 
 require (
 	github.com/elastic/go-elasticsearch/v8 v8.19.7
-	github.com/go-sql-driver/mysql v1.10.0
+	github.com/go-sql-driver/mysql v1.10.1
 	github.com/lib/pq v1.12.3
 	github.com/redis/go-redis/v9 v9.22.0
 	github.com/wailsapp/wails/v3 v3.0.0-beta.9
